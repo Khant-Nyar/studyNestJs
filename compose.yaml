@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+    mariadb:
+        image: mariadb
+        container_name: mariadb
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        volumes:
+            - mariadb_data:/var/lib/mysql
+        ports:
+            - '3306:${MYSQL_PORT}'
+        networks:
+            - my_network
+
+    mailhog:
+        image: mailhog/mailhog
+        container_name: mailhog
+        ports:
+            - '8025:8025' # MailHog Web UI
+            - '1025:1025' # MailHog SMTP
+        networks:
+            - my_network
+
+    swagger-ui:
+        image: swaggerapi/swagger-ui
+        container_name: swagger-ui
+        environment:
+            SWAGGER_JSON: /api/swagger.json
+        volumes:
+            - ./swagger.json:/api/swagger.json
+        ports:
+            - '18080:8080' # Swagger UI
+        networks:
+            - my_network
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        environment:
+            PMA_HOST: mariadb
+            PMA_USER: ${MYSQL_USER}
+            PMA_PASSWORD: ${MYSQL_PASSWORD}
+        ports:
+            - '8080:80' # phpMyAdmin Web UI
+        networks:
+            - my_network
+
+networks:
+    my_network:
+        driver: bridge
+
+volumes:
+    mariadb_data:
