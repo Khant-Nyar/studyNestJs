@@ -30,6 +30,14 @@ jobs:
       - name: Lint code
         run: yarn lint
 
+      - name: Commit formatted code
+        run: |
+          git config --local user.email "khantsithuphyo2001@github.com"
+          git config --local user.name "Khant-Nyar"
+          git add .
+          git commit -m "Auto-format code"
+          git push
+
       # - name: Run tests
       #   run: yarn test
       # - name: SonarCloud Scan
