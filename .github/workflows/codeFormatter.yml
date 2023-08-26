@@ -29,12 +29,7 @@ jobs:
 
       - name: Lint code
         run: yarn lint
-      
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
-      
+              
       - name: Commit files
         run: |
           yarn fix
