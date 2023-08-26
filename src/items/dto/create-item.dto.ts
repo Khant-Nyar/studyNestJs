@@ -1,1 +1,4 @@
-export class CreateItemDto {}
+export class CreateItemDto {
+    name:string;
+    isActive:boolean;
+}
