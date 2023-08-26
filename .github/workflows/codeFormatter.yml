@@ -29,14 +29,26 @@ jobs:
 
       - name: Lint code
         run: yarn lint
-
-      - name: Commit formatted code
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Commit files
         run: |
-          git config --local user.email "khantsithuphyo2001@github.com"
-          git config --local user.name "Khant-Nyar"
-          git add .
-          git commit -m "Auto-format code"
-          git push
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "Add changes"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ github.head_ref }}
+      # - name: Commit formatted code
+      #   run: |
+      #     git config --local user.email "khantsithuphyo2001@github.com"
+      #     git config --local user.name "Khant-Nyar"
+      #     git add .
+      #     git commit -m "Auto-format code"
+      #     git push
 
       # - name: Run tests
       #   run: yarn test
