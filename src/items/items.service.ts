@@ -8,43 +8,42 @@ import { Listing } from './entities/listing.entity';
 
 @Injectable()
 export class ItemsService {
-  
-  constructor(
-    private readonly entityManager: EntityManager,
-    @InjectRepository(Item)
-    private readonly itemRepository:Repository<Item>,
-    ){}
+    constructor(
+        private readonly entityManager: EntityManager,
+        @InjectRepository(Item)
+        private readonly itemRepository: Repository<Item>,
+    ) {}
 
-  async create(createItemDto: CreateItemDto) {
-    const listing = new Listing({
-      ...createItemDto.listing,
-      rating: 0,
-    });
-    const item = new Item({
-      ...createItemDto,
-      listing,
-    });
-    return await this.entityManager.save(item);
-  }
+    async create(createItemDto: CreateItemDto) {
+        const listing = new Listing({
+            ...createItemDto.listing,
+            rating: 0,
+        });
+        const item = new Item({
+            ...createItemDto,
+            listing,
+        });
+        return await this.entityManager.save(item);
+    }
 
-  async findAll() {
-    return await this.itemRepository.find();
-  }
+    async findAll() {
+        return await this.itemRepository.find();
+    }
 
-  async findOne(id: number) {
-    return await this.itemRepository.findOne({ 
-      where: { id },
-      relations: { listing: true },
-    });
-  }
+    async findOne(id: number) {
+        return await this.itemRepository.findOne({
+            where: { id },
+            relations: { listing: true },
+        });
+    }
 
-  async update(id: number, updateItemDto: UpdateItemDto) {
-    const item = await this.itemRepository.findOneBy({ id });
-    item.isActive = updateItemDto.isActive;
-    return await this.entityManager.save(item);
-  }
+    async update(id: number, updateItemDto: UpdateItemDto) {
+        const item = await this.itemRepository.findOneBy({ id });
+        item.isActive = updateItemDto.isActive;
+        return await this.entityManager.save(item);
+    }
 
-  async remove(id: number) {
-    await this.itemRepository.delete(id);
-  }
+    async remove(id: number) {
+        await this.itemRepository.delete(id);
+    }
 }

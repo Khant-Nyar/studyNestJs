@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Listing {
@@ -10,9 +10,9 @@ export class Listing {
 
     @Column()
     rating: number;
-    
-    constructor(listing:Partial<Listing>){
-        Object.assign(this,listing)
+
+    constructor(listing: Partial<Listing>) {
+        Object.assign(this, listing);
         // super();
     }
 }

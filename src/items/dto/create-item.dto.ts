@@ -1,7 +1,7 @@
-import { CreateListingDto } from "./create-listing.dto";
+import { CreateListingDto } from './create-listing.dto';
 
 export class CreateItemDto {
-    name:string;
-    isActive:boolean;
-    listing:CreateListingDto;
+    name: string;
+    isActive: boolean;
+    listing: CreateListingDto;
 }

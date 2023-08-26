@@ -10,7 +10,7 @@ import { ItemsModule } from './items/items.module';
             // envFilePath: `.env.${process.env.NODE_ENV}`,
         }),
         DatabaseModule,
-        ItemsModule
+        ItemsModule,
     ],
     controllers: [],
     providers: [],
