@@ -4,11 +4,8 @@ services:
     mariadb:
         image: mariadb
         container_name: mariadb
-        environment:
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-            MYSQL_DATABASE: ${MYSQL_DATABASE}
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        env_file:
+            - .env
         volumes:
             - mariadb_data:/var/lib/mysql
         ports:
@@ -31,7 +28,7 @@ services:
         environment:
             SWAGGER_JSON: /api/swagger.json
         volumes:
-            - ./swagger.json:/api/swagger.json
+            - ./docs/swagger.json:/api/swagger.json
         ports:
             - '18080:8080' # Swagger UI
         networks:
