@@ -40,14 +40,6 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           branch: ${{ github.head_ref }}
-      # - name: Commit formatted code
-      #   run: |
-      #     git config --local user.email "khantsithuphyo2001@github.com"
-      #     git config --local user.name "Khant-Nyar"
-      #     git add .
-      #     git commit -m "Auto-format code"
-      #     git push
-
       # - name: Run tests
       #   run: yarn test
       # - name: SonarCloud Scan
