@@ -39,6 +39,7 @@ jobs:
       - name: Commit changes
         if: env.CHANGES_EXIST == 'true'
         run: |
+          yarn fix
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git commit -a -m "Auto-format and lint code"
