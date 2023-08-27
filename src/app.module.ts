@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
-import { ItemsModule } from './items/items.module';
+import { ModuleModule } from './modules/modules.modules';
 
 @Module({
     imports: [
@@ -10,7 +10,7 @@ import { ItemsModule } from './items/items.module';
             // envFilePath: `.env.${process.env.NODE_ENV}`,
         }),
         DatabaseModule,
-        ItemsModule,
+        ModuleModule,
     ],
     controllers: [],
     providers: [],
