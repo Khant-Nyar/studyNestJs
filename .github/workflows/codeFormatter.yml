@@ -29,6 +29,26 @@ jobs:
 
       - name: Lint code
         run: yarn lint
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git diff --exit-code || echo "CHANGES_EXIST=true" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Commit changes
+        if: env.CHANGES_EXIST == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "Auto-format and lint code"
+        shell: bash
+
+      - name: Push changes
+        if: env.CHANGES_EXIST == 'true'
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          branch: ${{ github.head_ref }}
               
       - name: Commit files
         run: |
@@ -40,13 +60,6 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           branch: ${{ github.head_ref }}
-      # - name: Commit formatted code
-      #   run: |
-      #     git config --local user.email "khantsithuphyo2001@github.com"
-      #     git config --local user.name "Khant-Nyar"
-      #     git add .
-      #     git commit -m "Auto-format code"
-      #     git push
 
       # - name: Run tests
       #   run: yarn test
