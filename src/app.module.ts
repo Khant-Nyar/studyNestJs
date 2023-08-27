@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
-import { ModuleModule } from './modules/modules.modules';
+import { ApiModule } from './api/api.modules';
 
 @Module({
     imports: [
@@ -10,7 +10,7 @@ import { ModuleModule } from './modules/modules.modules';
             // envFilePath: `.env.${process.env.NODE_ENV}`,
         }),
         DatabaseModule,
-        ModuleModule,
+        ApiModule,
     ],
     controllers: [],
     providers: [],
