@@ -19,13 +19,12 @@ export class ReportsService {
       .map((report) => new ReportResponseDto(report));
   }
 
-  getReportById(type: ReportsType, id: string): ReportResponseDto {
+  getReportById(type: ReportsType, id: string): ReportResponseDto | void {
     const report = data.reports
       .filter((reports) => reports.type === type)
       .find((reports) => reports.id === id);
-    // if (!report) return;
+    if (!report) return;
     return new ReportResponseDto(report as Partial<ReportResponseDto>);
-    // return new ReportResponseDto(report);
   }
 
   creteReport(
@@ -48,11 +47,11 @@ export class ReportsService {
     type: ReportsType,
     id: string,
     body: UpdateReport,
-  ): ReportResponseDto {
+  ): ReportResponseDto | null {
     const reportToUpdate = data.reports
       .filter((reports) => reports.type === type)
       .find((reports) => reports.id === id);
-    // if (!reportToUpdate) return;
+    if (!reportToUpdate) return null;
     const reportIndex = data.reports.findIndex(
       (report) => report.id === reportToUpdate?.id,
     );
