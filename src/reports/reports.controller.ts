@@ -24,71 +24,39 @@ export class ReportsController {
 
   @Get()
   getAllReports(
-    @Param('type', new ParseEnumPipe(ReportsType)) type: string,
+    @Param('type', new ParseEnumPipe(ReportsType)) type: ReportsType,
   ): ReportResponseDto[] {
-    const reportsType =
-      type === 'income' ? ReportsType.INCOME : ReportsType.EXPENSE;
-    return this.reportsService.getAllReports(reportsType);
+    return this.reportsService.getAllReports(type);
   }
 
   @Get(':id')
   getReportById(
-    @Param('type', new ParseEnumPipe(ReportsType)) type: string,
+    @Param('type', new ParseEnumPipe(ReportsType)) type: ReportsType,
     @Param('id', ParseUUIDPipe) id: string,
-  ): ReportResponseDto {
-    console.log(id, typeof id);
-
-    const reportsType =
-      type === 'income' ? ReportsType.INCOME : ReportsType.EXPENSE;
-    return this.reportsService.getReportById(reportsType, id);
+  ): ReportResponseDto | undefined {
+    return this.reportsService.getReportById(type, id);
   }
 
   @Post()
-  creteReport(
+  createReport(
     @Body() { amount, source }: CreateReportDto,
-    @Param('type', new ParseEnumPipe(ReportsType)) type: string,
+    @Param('type', new ParseEnumPipe(ReportsType)) type: ReportsType,
   ): ReportResponseDto {
-    const reportsType =
-      type === 'income' ? ReportsType.INCOME : ReportsType.EXPENSE;
-    return this.reportsService.creteReport(reportsType, { amount, source });
+    return this.reportsService.createReport(type, { amount, source });
   }
+
   @Put(':id')
   updateReport(
-    @Param('type', new ParseEnumPipe(ReportsType)) type: string,
+    @Param('type', new ParseEnumPipe(ReportsType)) type: ReportsType,
     @Param('id', ParseUUIDPipe) id: string,
     @Body() body: UpdateReportDto,
-  ): ReportResponseDto {
-    const reportsType =
-      type === 'income' ? ReportsType.INCOME : ReportsType.EXPENSE;
-    return this.reportsService.updateReport(reportsType, id, body);
+  ): ReportResponseDto | undefined {
+    return this.reportsService.updateReport(type, id, body);
   }
+
   @HttpCode(204)
   @Delete(':id')
-  deleteReport(@Param('id', ParseUUIDPipe) id: string) {
-    return this.reportsService.deleteReport(id);
+  deleteReport(@Param('id', ParseUUIDPipe) id: string): void {
+    this.reportsService.deleteReport(id);
   }
-  // @Post()
-  // create(@Body() createReportDto: CreateReportDto) {
-  //   return this.reportsService.create(createReportDto);
-  // }
-
-  // @Get()
-  // findAll() {
-  //   return this.reportsService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.reportsService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateReportDto: UpdateReportDto) {
-  //   return this.reportsService.update(+id, updateReportDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.reportsService.remove(+id);
-  // }
 }

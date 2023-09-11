@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ReportResponseDto } from './dto/report.dto';
 import { ReportsType, data } from 'src/data';
 import { v4 as uuid } from 'uuid';
@@ -11,23 +11,28 @@ interface UpdateReport {
   amount?: number;
   source?: string;
 }
+
 @Injectable()
 export class ReportsService {
   getAllReports(type: ReportsType): ReportResponseDto[] {
     return data.reports
-      .filter((reports) => reports.type === type)
+      .filter((report) => report.type === type)
       .map((report) => new ReportResponseDto(report));
   }
 
-  getReportById(type: ReportsType, id: string): ReportResponseDto | void {
+  getReportById(type: ReportsType, id: string): ReportResponseDto | undefined {
     const report = data.reports
-      .filter((reports) => reports.type === type)
-      .find((reports) => reports.id === id);
-    if (!report) return;
-    return new ReportResponseDto(report as Partial<ReportResponseDto>);
+      .filter((report) => report.type === type)
+      .find((report) => report.id === id);
+
+    if (!report) {
+      throw new NotFoundException('Report not found');
+    }
+
+    return new ReportResponseDto(report);
   }
 
-  creteReport(
+  createReport(
     type: ReportsType,
     { amount, source }: Report,
   ): ReportResponseDto {
@@ -47,11 +52,15 @@ export class ReportsService {
     type: ReportsType,
     id: string,
     body: UpdateReport,
-  ): ReportResponseDto | null {
+  ): ReportResponseDto | undefined {
     const reportToUpdate = data.reports
-      .filter((reports) => reports.type === type)
-      .find((reports) => reports.id === id);
-    if (!reportToUpdate) return null;
+      .filter((report) => report.type === type)
+      .find((report) => report.id === id);
+
+    if (!reportToUpdate) {
+      throw new NotFoundException('Report not found');
+    }
+
     const reportIndex = data.reports.findIndex(
       (report) => report.id === reportToUpdate?.id,
     );
@@ -63,10 +72,13 @@ export class ReportsService {
     return new ReportResponseDto(data.reports[reportIndex]);
   }
 
-  deleteReport(id: string) {
+  deleteReport(id: string): void {
     const reportIndex = data.reports.findIndex((report) => report.id === id);
-    if (reportIndex === -1) return;
+
+    if (reportIndex === -1) {
+      throw new NotFoundException('Report not found');
+    }
+
     data.reports.splice(reportIndex, 1);
-    return;
   }
 }
