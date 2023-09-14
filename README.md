@@ -4,7 +4,8 @@
 
 * Create Nest Project
 nest new nameofproject -sp yarn
-it mean skip node_modules install and ask 
+it mean skip node_modules install and choose package manager as yarn
+ 
 * asynchronous = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'dev';
 * autoLoadEntities: true,
 
